@@ -53,7 +53,9 @@ const timeProgress = document.querySelector(".time-progress")
 const minimizeBtn = document.querySelector(".minimize-btn")
 const maximizeBtn = document.querySelector(".maximize-btn")
 const emailPopup = document.querySelector(".email-popup")
-
+const popupContainer = document.querySelector(".popup-container")
+const popupText = document.querySelector(".popup-text")
+const popupButton = document.querySelector(".popup-button")
 
 
 
@@ -105,7 +107,7 @@ function update(){
   addSubtitles(video, asyncSubtitle)
   updateTranscript()
   updateTimeProgress()
-  updateMail()
+  updatePopup()
 }
 
 //Sliders adding and updating
@@ -216,9 +218,11 @@ let sectionEnds = []
 window.addEventListener("blur", toggleFocus)
 window.addEventListener("focus", toggleFocus)
 
-// const green = "#93c47d"
-const green = "grey"
-const red = "#e06666"
+const green = "#6db35d"
+// const green = "grey"
+// const red = "#e06666"
+// const red = "rgb(235, 235, 235)"
+const red = "white"
 const audioTrack = "assets/alert3.wav"
 
 
@@ -317,7 +321,7 @@ function updateMissedPercent(){
 // Reminder to start asynchronous viewing
 let totalMissedPercent = 0
 let totalViewedPercent = 0
-let playbackPace = 1.8
+let playbackPace = 1.5
 let reminderSent = false
 let timeDifference
 let blinkInterval
@@ -406,7 +410,7 @@ function startAV(time){
     asyncThumbIndicator.children[1].textContent = ""
     asyncThumbIndicator.children[0].src = "assets/student.png"
     asyncThumbIndicator.style.opacity = "100%"
-    mainVideoContainer.style.borderColor = red
+    // mainVideoContainer.style.borderColor = red
 
     //setup live video container
     if(showLiveWindow){
@@ -415,7 +419,7 @@ function startAV(time){
     else{
     	maximizeBtn.style.display = "block"
     }
-    liveLableMain.style.display = "none"
+    liveLableMain.textContent = "RECORDED"
     // syncVideo.currentTime = video.currentTime
     // syncVideo.play()
     syncVideo.playbackRate = 1
@@ -478,8 +482,8 @@ function jumpToLive(){
       isAsync = false
       
       liveVideoContainer.style.display = "none"
-      liveLableMain.style.display = "block"
-      mainVideoContainer.style.borderColor = "#595959"
+      liveLableMain.textContent = "LIVE"
+      // mainVideoContainer.style.borderColor = "#595959"
       asyncThumbIndicator.children[0].src = "assets/student.png"
       // asyncThumbIndicator.style.opacity = "50%"
       // asyncThumbIndicator.style.left = video.currentTime / video.duration * 100 + "%"
@@ -553,8 +557,8 @@ function updateAsyncView(){
       video.playbackRate = 1
       // syncVideo.pause()
       liveVideoContainer.style.display = "none"
-      liveLableMain.style.display = "block"
-      mainVideoContainer.style.borderColor = "#595959"
+      liveLableMain.textContent = "LIVE"
+      // mainVideoContainer.style.borderColor = "#595959"
       asyncThumbIndicator.children[0].src = "assets/student.png"
       // asyncThumbIndicator.style.opacity = "50%"
       // asyncThumbIndicator.style.left = video.currentTime / video.duration * 100 + "%"
@@ -617,12 +621,12 @@ function updateCatchUpLine(){
     rightArrow.style.left = (syncVideo.currentTime/video.duration * 100)-0.5 + "%"
     leftArrow.style.left =  video.currentTime/video.duration * 100 + "%"
     catchUpTimeText.style.left = (syncVideo.currentTime + video.currentTime) * 0.5 /video.duration * 100 + "%"
-    catchUpTimeText.textContent = convertToMinutes(((syncVideo.currentTime - video.currentTime)/playbackPace)/(1 - 1/playbackPace))
+    catchUpTimeText.textContent = convertToMinutesDescript(((syncVideo.currentTime - video.currentTime)/playbackPace)/(1 - 1/playbackPace))
     if(((syncVideo.currentTime - video.currentTime)/playbackPace)/(1 - 1/playbackPace) > video.duration - syncVideo.currentTime){
     	catchUpTimeText.style.color = "red"
     }
     else{
-    	catchUpTimeText.style.color = "grey"
+    	catchUpTimeText.style.color = green
     }
 }
 
@@ -648,7 +652,7 @@ function togglePlayPause(){
 		    // syncVideo.style.filter = "grayscale(1)"
 		    liveVideoContainer.style.borderColor = "grey"
 		    // video.style.filter = "grayscale(0)"
-		    mainVideoContainer.style.borderColor = "#e06666"
+		    // mainVideoContainer.style.borderColor = "#e06666"
 
 		     //swtich which audio button is shown -> when video is playing the audio for the async video is playing
 		    // audioButtonLive.style.display = "none"
@@ -671,9 +675,9 @@ function togglePlayPause(){
 		  	startAV(video.currentTime)
 		    playBtn.children[0].setAttribute("src", "assets/play-btn.png")
 		    // syncVideo.style.filter = "grayscale(0)"
-		    liveVideoContainer.style.borderColor = "#e06666"
+		    // liveVideoContainer.style.borderColor = "#e06666"
 		    // video.style.filter = "grayscale(1)"
-		    mainVideoContainer.style.borderColor = "grey"
+		    // mainVideoContainer.style.borderColor = "grey"
 
 		    //if audio is muted keep live video muted, otherwise play live audio
 		    if(!video.muted){
@@ -781,17 +785,21 @@ incSpeedBtn.addEventListener("click", increaseSpeed)
 decSpeedBtn.addEventListener("click", decreaseSpeed)
 function increaseSpeed(){
   if(isAsync){
-    playbackPace += 0.1
-    video.playbackRate += 0.1
-    speedText.textContent = video.playbackRate.toFixed(1)
+    if(playbackPace <= 2.5){
+      playbackPace += 0.1
+      video.playbackRate += 0.1
+      speedText.textContent = video.playbackRate.toFixed(1)
+    }
   }
 }
 
 function decreaseSpeed() {
   if(isAsync){
-    playbackPace -= 0.1
-    video.playbackRate -= 0.1
-    speedText.textContent = video.playbackRate.toFixed(1)
+    if(playbackPace >= 1.1){
+      playbackPace -= 0.1
+      video.playbackRate -= 0.1
+      speedText.textContent = video.playbackRate.toFixed(1)
+    }
   }
 }
 
@@ -898,6 +906,24 @@ function convertToMinutes(time){
 		min = "0" + min
 	}
 	return (min+":"+sec)
+}
+
+function convertToMinutesDescript(time){
+	let min = 0
+	let sec = time.toFixed(0)
+	
+	min = Math.floor(time/60)
+	sec = Math.floor(time - min * 60)
+	// if(sec < 10.0){
+	// 	sec = "0" + sec
+	// }
+	// if(min < 10.0){
+	// 	min = "0" + min
+	// }
+  if(min == 0){
+    return (sec + "s")
+  }
+	return (min + "m " + sec + "s")
 }
 
 
@@ -1307,49 +1333,52 @@ maximizeBtn.addEventListener("click", maximizeLiveWindow)
 
 //shows and hides the email pop up
 
-const mailAudio = "assets/switch-alert.mp3"
-let emailTimes = ['1:00', '11:0']
-let interruptionLength = 150
-emailTimes = convertToSeconds(emailTimes)
+const switchAudio = "assets/switch-alert.mp3"
+let switchTimes = ['0:20', '11:0']
+let interruptionLength = 45
+switchTimes = convertToSeconds(switchTimes)
 
-emailPopup.addEventListener("click", openMail)
+let switchInd = 0
 
-function showMailPopup(){
-	emailPopup.style.display = "block"
-	playSound(mailAudio)
-}
-
-function hideMailPopup(){
-	emailPopup.style.display = "none"
-}
-
-var mailWindow = null
-function openMail(){
-  hideMailPopup()
-  setTimeout(function () {
-    mailWindow = window.open("./mail.html");
-  }, 500);
-}
-
-let nextEmailInd = 0
-let prevEmailInd = 0
-
-function updateMail(){
+function updatePopup(){
 	//show mail on email times
-	if(syncVideo.currentTime > emailTimes[nextEmailInd]){
-		// showMailPopup()
-    playSound(mailAudio)
-		nextEmailInd += 1
+	if(syncVideo.currentTime > switchTimes[switchInd]){
+    popupType = 'switch'
+    popupText.textContent = "You are late to submit your English assignment! \r\n \r\n Click on the button below to finish it and submit before the deadline! "
+    popupButton.textContent = "Open Assignment"
+    popupContainer.style.display = "block"
+    playSound(switchAudio)
+		switchInd += 1
 	}
-	//hide mail icon after 1 minute
-	
-	// if(syncVideo.currentTime > emailTimes[prevEmailInd] + interruptionLength){
-	// 	// hideMailPopup()
- //    playSound(mailAudio)
-	// 	prevEmailInd += 1
- //    // mailWindow.close()
-	// }
+  if(syncVideo.ended){
+    popupType = 'end'
+    popupText.textContent = "Thank you for finishing this lecture! \r\n \r\n Your completion code is \"ShapeDone$\". Return to the survey, copy and paste the completion code in the text box to move on to the next step!"
+    popupButton.textContent = "Take the Quiz!"
+    popupButton.style.display = "none"
+    popupContainer.style.display = "block"
+  }
+}
 
+// control the message pop up
+
+let popupType = 'start'  // popupType can be 'start', 'switch', 'end'
+popupButton.addEventListener("click", handlePopupButton)
+
+function handlePopupButton(){
+  if(popupType == 'start'){
+    popupContainer.style.display = "none"
+    togglePlay()
+  }
+  if(popupType == 'switch'){
+    popupContainer.style.display = "none"
+    // open the assignment in a new tab
+    var taskWindow = window.open('', '_blank');
+    taskWindow.location.href = 'https://ubc.ca1.qualtrics.com/jfe/form/SV_0BAHTxLKsnBEurk';
+  }
+  if(popupType == 'end'){
+    popupContainer.style.display = "none"
+    window.location.href = 'https://ubc.ca1.qualtrics.com/jfe/form/SV_3JW1HItH7veqRNA'
+  }
 }
 
 

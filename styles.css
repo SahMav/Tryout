@@ -29,7 +29,8 @@ body {
   margin-inline: auto;
   background-color: white;
   border-style: solid;
-  border-color: #e06666;
+  border-color: rgb(217, 217, 217);
+  /* border-color: #e06666; */
   border-width: 7px;
   border-radius: 5px;
 }
@@ -223,8 +224,8 @@ video {
   left: 0;
   top: 0;
   bottom: 0;
-  right: calc(100% - var(--progress-position) * 100%);
-  background-color: transparent;
+  right: calc(100% - var(--live-progress-position) * 100%);
+  background-color: rgba(148, 148, 148, 0.8);
 }
 
 /*.timeline .thumb-indicator {
@@ -249,7 +250,10 @@ video {
   height: 10px;
   width: 10px;
   border-radius: 50%;
-  background-color: red;
+  background-color:rgba(0, 0, 0, 0.6);
+  /* border-style: solid;
+  border-color: black;
+  border-width: 0.5px; */
   z-index: 21;
 }
 
@@ -268,7 +272,7 @@ video {
   font-size: 13px;
   font-family: "Courier new";
   font-weight: bold;
-  color: red;
+  color: gray;
   transform: translate(-10%,+8%);
   height: 10px;
   width: 200px;
@@ -336,7 +340,7 @@ video {
   height: 11px;
   position: absolute;
   opacity: 90%;
-  border-radius: 3px;
+  /* border-radius: 3px; */
   border-width: 2px;
   border-color: grey;
   border-style: none;
@@ -362,7 +366,7 @@ video {
   height: 15px;
   width: 15px;
   border-radius: 50%;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 20;
 
 }
@@ -437,7 +441,7 @@ video {
 
 .play-btn{
   position: absolute;
-  left: 5%;
+  left: 50%;
   top:5%;
   height: 90%;
   cursor: pointer;
@@ -448,7 +452,7 @@ video {
 
 .skip-forward-btn{
   position: absolute;
-  left: 9%;
+  left: 5%;
   top:0%;
   height: 100%;
 }
@@ -458,7 +462,7 @@ video {
 
 .speed-container{
   position: absolute;
-  left: 13%;
+  left: 9%;
   top: 0%;
   height: 100%;
   width: 8%;
@@ -495,7 +499,7 @@ video {
   background-size: contain;
   left: 5%;
   top: 3%;
-  bottom: : 0%;
+  bottom: 0%;
   font-size: 100%;
   font-family: "Courier new";
   font-weight: bold;
@@ -524,7 +528,7 @@ video {
   position: absolute;
   width: 90%;
   height: 10%;
-  left: 5%
+  left: 5%;
   background-color: yellow;
   bottom: -1%;
 /*  display: flex;
@@ -736,10 +740,10 @@ video {
   position: absolute;
   top: 1%;
   left:1%;
-  font-size: 13px;
+  font-size: 16px;
   font-family: "Courier new";
   font-weight: bold;
-  color: red;
+  color: grey;
   /*transform: translate(-10%,+10%);*/
   height: 10px;
   width: 40px;
@@ -763,7 +767,7 @@ video {
   aspect-ratio : 1/1;
   background-color: transparent;
   top:10%;
-  left: 20%;
+  left: 16%;
   border-radius: 20%;
   cursor: pointer;
   z-index: 10;
@@ -772,7 +776,7 @@ video {
 
 .volume-slider {
   position: absolute;
-  left : 23%;
+  left : 19%;
   top: 25%;
   width: 100px;
   transform-origin: left;
@@ -797,7 +801,7 @@ video {
   font-size: 10px;
   font-family: "Courier new";
   font-weight: bold;
-  color: red;
+  color: grey;
   /*transform: translate(-10%,+10%);*/
   height: 10px;
   width: 40px;
@@ -841,10 +845,10 @@ video {
   position: absolute;
   bottom: 0%;
   left: 0%;
-  font-size: 12px;
+  font-size: 11px;
   font-family: "Courier new";
   font-weight: bold;
-  color: grey;
+  color: #93c47d;
   transform: translate(-50%,-220%);
 }
 
@@ -897,9 +901,9 @@ video {
 }
 .time-progress{
   position: absolute;
-  left: 5%;
-  top: 1%;
-  color: red;
+  left: 9%;
+  top: 1.2%;
+  color: grey;
   font-size: 12px;
   font-family: "Courier new";
   font-weight: bold;
@@ -1049,6 +1053,48 @@ video {
   border: none;
   background-color: rgb(6, 47, 104);
   cursor: pointer;
+}
+
+.popup-container{
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  background-size:cover;
+  left: 30%;
+  top: 20%;
+  background-color: white;
+  opacity: 0.9;
+  border-style: solid;
+  border-width: 5px;
+  border-color: lightgray;
+  border-radius: 25px;
+  z-index: 20;
+}
+
+.popup-text{
+  position: absolute;
+  left: 3%;
+  top: 5%;
+  font-size: 15px;
+  font-family: Monospace;
+  font-weight: bold;
+  color: rgb(49, 49, 49);
+  white-space: pre-line;
+}
+
+.popup-button{
+  position: absolute;
+  width: 28%;
+  height: 20%;
+  left: 37%;
+  top: 65%;
+  background-color: rgb(0, 0, 67);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: Monospace;
+  font-weight: bold;
+  color: white;
+
 }
 
 
