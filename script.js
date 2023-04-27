@@ -1334,7 +1334,7 @@ maximizeBtn.addEventListener("click", maximizeLiveWindow)
 //shows and hides the email pop up
 
 const switchAudio = "assets/switch-alert.mp3"
-let switchTimes = ['0:20', '11:0']
+let switchTimes = ['11:0']
 let interruptionLength = 45
 switchTimes = convertToSeconds(switchTimes)
 
